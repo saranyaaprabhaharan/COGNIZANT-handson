@@ -1,0 +1,201 @@
+
+// DataStructuresAndAlgorithms.java
+import java.util.*;
+
+public class DataStructuresAndAlgorithms {
+
+    // -------- Array Traversal --------
+    static void arrayTraversal(int[] arr) {
+        System.out.print("Array Traversal: ");
+        for (int i : arr)
+            System.out.print(i + " ");
+        System.out.println();
+    }
+
+    // -------- Linear Search --------
+    static int linearSearch(int[] arr, int key) {
+        for (int i = 0; i < arr.length; i++)
+            if (arr[i] == key)
+                return i;
+        return -1;
+    }
+
+    // -------- Binary Search --------
+    static int binarySearch(int[] arr, int key) {
+        int l = 0, h = arr.length - 1;
+        while (l <= h) {
+            int mid = (l + h) / 2;
+            if (arr[mid] == key)
+                return mid;
+            if (arr[mid] < key)
+                l = mid + 1;
+            else
+                h = mid - 1;
+        }
+        return -1;
+    }
+
+    // -------- Bubble Sort --------
+    static void bubbleSort(int[] arr) {
+        int n = arr.length;
+        for (int i = 0; i < n - 1; i++)
+            for (int j = 0; j < n - i - 1; j++)
+                if (arr[j] > arr[j + 1]) {
+                    int t = arr[j];
+                    arr[j] = arr[j + 1];
+                    arr[j + 1] = t;
+                }
+    }
+
+    // -------- Quick Sort --------
+    static void quickSort(int[] arr, int low, int high) {
+        if (low < high) {
+            int p = partition(arr, low, high);
+            quickSort(arr, low, p - 1);
+            quickSort(arr, p + 1, high);
+        }
+    }
+
+    static int partition(int[] arr, int low, int high) {
+        int pivot = arr[high];
+        int i = low - 1;
+
+        for (int j = low; j < high; j++)
+            if (arr[j] < pivot) {
+                i++;
+                int t = arr[i];
+                arr[i] = arr[j];
+                arr[j] = t;
+            }
+
+        int t = arr[i + 1];
+        arr[i + 1] = arr[high];
+        arr[high] = t;
+
+        return i + 1;
+    }
+
+    // -------- Merge Sort --------
+    static void mergeSort(int[] arr, int l, int r) {
+        if (l < r) {
+            int m = (l + r) / 2;
+
+            mergeSort(arr, l, m);
+            mergeSort(arr, m + 1, r);
+
+            merge(arr, l, m, r);
+        }
+    }
+
+    static void merge(int[] arr, int l, int m, int r) {
+
+        int[] temp = new int[r - l + 1];
+
+        int i = l, j = m + 1, k = 0;
+
+        while (i <= m && j <= r) {
+            if (arr[i] <= arr[j])
+                temp[k++] = arr[i++];
+            else
+                temp[k++] = arr[j++];
+        }
+
+        while (i <= m)
+            temp[k++] = arr[i++];
+
+        while (j <= r)
+            temp[k++] = arr[j++];
+
+        for (i = l, k = 0; i <= r; i++, k++)
+            arr[i] = temp[k];
+    }
+
+    // -------- Linked List --------
+    static class Node {
+        int data;
+        Node next;
+
+        Node(int d) {
+            data = d;
+        }
+    }
+
+    static Node insert(Node head, int data) {
+        Node newNode = new Node(data);
+
+        if (head == null)
+            return newNode;
+
+        Node temp = head;
+
+        while (temp.next != null)
+            temp = temp.next;
+
+        temp.next = newNode;
+
+        return head;
+    }
+
+    static void traverse(Node head) {
+        System.out.print("Linked List: ");
+
+        while (head != null) {
+            System.out.print(head.data + " ");
+            head = head.next;
+        }
+
+        System.out.println();
+    }
+
+    // -------- Time Complexity --------
+    static void complexity() {
+        System.out.println("\nAlgorithm Time Complexity");
+        System.out.println("Linear Search : O(n)");
+        System.out.println("Binary Search : O(log n)");
+        System.out.println("Bubble Sort   : O(n^2)");
+        System.out.println("Quick Sort    : O(n log n)");
+        System.out.println("Merge Sort    : O(n log n)");
+        System.out.println("Array Access  : O(1)");
+        System.out.println("Linked List Insert : O(n)");
+    }
+
+    // -------- Main --------
+    public static void main(String[] args) {
+
+        int arr[] = {8, 4, 2, 7, 5};
+
+        System.out.println("===== DATA STRUCTURES & ALGORITHMS =====");
+
+        arrayTraversal(arr);
+
+        System.out.println("\nLinear Search (7): Index = "
+                + linearSearch(arr, 7));
+
+        bubbleSort(arr);
+
+        System.out.print("Bubble Sort: ");
+        System.out.println(Arrays.toString(arr));
+
+        System.out.println("Binary Search (5): Index = "
+                + binarySearch(arr, 5));
+
+        int quick[] = {9, 1, 6, 3, 8};
+        quickSort(quick, 0, quick.length - 1);
+        System.out.print("Quick Sort: ");
+        System.out.println(Arrays.toString(quick));
+
+        int merge[] = {12, 5, 8, 2, 15};
+        mergeSort(merge, 0, merge.length - 1);
+        System.out.print("Merge Sort: ");
+        System.out.println(Arrays.toString(merge));
+
+        Node head = null;
+        head = insert(head, 10);
+        head = insert(head, 20);
+        head = insert(head, 30);
+
+        traverse(head);
+
+        complexity();
+    }
+}
